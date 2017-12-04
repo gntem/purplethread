@@ -32,7 +32,7 @@ Route::delete('/topic/{topic}','TopicController@destroy');
  * Posts
  */
 Route::get('/topic/{topic}/posts','PostController@index');
-Route::post('/topic/{topic}/post/new','PostController@create');
+Route::post('/topic/{topic}/post/new','PostController@store');
 Route::get('/topic/{topic}/post/{post}','PostController@show');
 Route::put('/topic/{topic}/post/{post}','PostController@update');
-Route::delete('/topic/{topic}/post/{post}','PostController@delete');
+Route::delete('/topic/{topic}/post/{post}','PostController@destroy');

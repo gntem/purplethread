@@ -1,3 +1,6 @@
+notifications:
+  email: false
+
 language: php
 
 php:
@@ -5,7 +8,7 @@ php:
 
 before_script:
   - cp .env.travis .env
-  - mysql -e 'create database homestead_test;'
+  - mysql -e 'create database testing;'
   - composer self-update
   - composer install --no-interaction
   - php artisan key:generate
@@ -15,3 +18,7 @@ services:
 
 script:
 - vendor/bin/phpunit
+
+branches:
+  only:
+  - master

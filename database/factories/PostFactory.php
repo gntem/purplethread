@@ -9,8 +9,8 @@ $factory->define(App\Post::class, function (Faker $faker) {
     return [
         'creator'=>factory(User::class)->create()->first()->id
         ,'topic'=>factory(Topic::class)->create()->first()->id
-        ,'title'=>$faker->text(100)
+        ,'title'=>$faker->unique()->text(100)
         ,'body'=>$faker->text(100)
-        ,'ttl'=> Carbon::now()->addHour(1)
+        ,'ttl'=>rand(60,525600)
     ];
 });

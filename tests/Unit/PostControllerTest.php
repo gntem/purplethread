@@ -23,7 +23,7 @@ class PostControllerTest extends TestCase
         $posts = factory(Post::class,22)->create([
             'topic'=>$topic->id
         ]);
-        
+
         $responseFirstPage = $this->get('/topic/'.$topic->id.'/posts');
         
         $responseFirstPage->assertJson([
@@ -35,5 +35,67 @@ class PostControllerTest extends TestCase
             ]);
         
     }
-
+    
+    public function testPostControllerCreate(){
+        
+        $topic = factory(Topic::class)->create([
+            'title'=>'testtopic'
+            ,'description'=>'testdescription'
+        ]);
+        
+		$user = factory(\App\User::class)->create();
+		
+        $response = $this->actingAs($user)->post('/topic/'.$topic->id.'/post/new',[
+           'title'=>'new post in test topic'
+           ,'body'=>'new post body'
+           ,'ttl'=>60 
+        ]);
+		
+        $response->assertSuccessful();
+		
+		$response->assertJson([
+           'title'=>'new post in test topic'
+            ,'body'=>'new post body'
+			,'ttl'=>60
+		]);
+    }
+	
+	public function testPostControllerShow(){
+		
+		$post = factory(Post::class)->create()->first();
+		
+		$response = $this->get('/topic/'.$post->topic.'/post/'.$post->id);
+		
+		$response->assertSuccessful();
+		
+		$response->assertJson($post->toArray());
+		
+	}
+	
+	public function testPostControllerUpdate(){
+		
+		$post = factory(Post::class)->create()->first();
+		
+		$response = $this->put('/topic/'.$post->topic.'/post/'.$post->id,[
+			'body'=>'updatedbody'
+		]);
+		
+		$response->assertSuccessful();
+		
+		$response->assertJson([
+			'id'=>$post->id
+			,'body'=>'updatedbody'
+		]);
+		
+	}
+	public function testPostControllerDelete(){
+		
+		$post = factory(Post::class)->create()->first();
+		
+		$response = $this->delete('/topic/'.$post->topic.'/post/'.$post->id);
+		
+		$response->assertSuccessful();
+		
+	}
+	
 }

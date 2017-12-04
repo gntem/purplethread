@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use App\Topic;
+use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -37,9 +39,16 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$topic)
     {
-        //
+		$topic = Topic::findOrFail($topic);
+		$newPost = $topic->posts()->create([
+            'creator'=>Auth::user()->id
+			,'title'=>$request->input('title')
+			,'body'=>$request->input('body')
+			,'ttl'=>$request->input('ttl')
+        ]);
+		return $newPost;
     }
 
     /**
@@ -48,9 +57,10 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show($topic,$post)
     {
-        //
+		$post = Post::findOrFail($post);
+        return $post;
     }
 
     /**
@@ -71,9 +81,13 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request,$topic,$post)
     {
-        //
+		$post = Post::findOrFail($post);
+        $post->update([
+			'body'=>$request->input('body')
+		]);
+		return $post;
     }
 
     /**
@@ -84,6 +98,6 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        return $post->delete();
     }
 }

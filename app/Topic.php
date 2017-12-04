@@ -11,6 +11,6 @@ class Topic extends Model
     protected $fillable = ['title','description'];
 
     public function posts(){
-            return $this->hasMany('App\Post','topic','id');
+       return $this->hasMany('App\Post','topic','id');
     }
 }

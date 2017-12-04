@@ -17,9 +17,10 @@ class CreatePostsTable extends Migration
             $table->increments('id');
             $table->integer('creator')->unsigned();
             $table->integer('topic')->unsigned();
-            $table->string('title');
+            $table->string('title')->unique();
             $table->text('body');
-            $table->timestamp('ttl')->nullable();
+			//app min 60minutes, app max 525600minutes = 1 year, field max 16777215 minutes => 31.9 years 
+			$table->unsignedMediumInteger('ttl');
             $table->timestamps();
             
             $table->foreign('creator')
