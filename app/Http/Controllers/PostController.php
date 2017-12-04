@@ -2,19 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Post;
 use App\Topic;
 use Illuminate\Http\Request;
 
-class TopicController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request,$topic)
     {
-        return Topic::all();
+        $topic = Topic::findOrFail($topic);
+        return $topic->posts(function($subquery){
+            $subquery->orderBy('created_at','desc');
+        })->paginate(20);
     }
 
     /**
@@ -35,34 +39,27 @@ class TopicController extends Controller
      */
     public function store(Request $request)
     {
-        try{
-            return Topic::create([
-                'title'=>$request->input('title')
-                ,'description'=>$request->input('description')
-            ]);
-        }catch(\Exception $error){
-            return Response::json(500,['alert'=>'error','message'=>'An error occurred']);
-        }
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Topic  $topic
+     * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request,$topic)
+    public function show(Post $post)
     {
-        return Topic::findOrFail($topic);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Topic  $topic
+     * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Topic $topic)
+    public function edit(Post $post)
     {
         //
     }
@@ -71,27 +68,22 @@ class TopicController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Topic  $topic
+     * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $topic)
+    public function update(Request $request, Post $post)
     {
-        $TopicToUpdate = Topic::findOrFail($topic);
-        $TopicToUpdate->update([
-                'title'=>$request->input('title')
-                ,'description'=>$request->input('description')
-        ]);
-        return $TopicToUpdate;
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Topic  $topic
+     * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Topic $topic)
+    public function destroy(Post $post)
     {
-        return $topic->delete();
+        //
     }
 }

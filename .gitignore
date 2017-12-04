@@ -13,3 +13,5 @@ yarn-error.log
 .settings/
 .buildpath
 .project
+/nbproject/private/
+nbproject/
