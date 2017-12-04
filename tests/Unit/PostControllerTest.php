@@ -32,7 +32,7 @@ class PostControllerTest extends TestCase
             ,'to'=>20
             ,'current_page'=>1
             ,'data'=>$posts->slice(0,20)->toArray()
-            ]);
+		]);
         
     }
     
