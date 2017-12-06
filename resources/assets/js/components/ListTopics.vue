@@ -2,8 +2,9 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-                <div class="list-group" v-for="topic in topics">
-                        <a href="/topic/" class="list-group-item">
+
+                <div class="list-group" v-for="topic in topics" :key="topic.id">
+                        <a v-bind:href="'/topic/'+topic.id+'/posts'" class="list-group-item">
                             <h4 class="list-group-item-heading">{{ topic.title }}</h4>
                             <p class="list-group-item-text">{{ topic.description }}</p>
                         </a>

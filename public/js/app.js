@@ -230,6 +230,7 @@ window.Vue = __webpack_require__(4);
  */
 
 Vue.component('listtopics-component', __webpack_require__(28));
+Vue.component('listtopicposts-component', __webpack_require__(67));
 
 var app = new Vue({
   el: '#app'
@@ -11498,6 +11499,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -11528,10 +11530,13 @@ var render = function() {
         "div",
         { staticClass: "col-md-8" },
         _vm._l(_vm.topics, function(topic) {
-          return _c("div", { staticClass: "list-group" }, [
+          return _c("div", { key: topic.id, staticClass: "list-group" }, [
             _c(
               "a",
-              { staticClass: "list-group-item", attrs: { href: "/topic/" } },
+              {
+                staticClass: "list-group-item",
+                attrs: { href: "/topic/" + topic.id + "/posts" }
+              },
               [
                 _c("h4", { staticClass: "list-group-item-heading" }, [
                   _vm._v(_vm._s(topic.title))
@@ -30305,6 +30310,222 @@ module.exports = function spread(callback) {
   };
 };
 
+
+/***/ }),
+/* 62 */,
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(68)
+/* template */
+var __vue_template__ = __webpack_require__(69)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\ListTopicPosts.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-94beb54e", Component.options)
+  } else {
+    hotAPI.reload("data-v-94beb54e", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 68 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['topicId'],
+    data: function data() {
+        return {
+            pagination: {},
+            posts: []
+        };
+    },
+    created: function created() {
+        var _this = this;
+
+        axios.get('/topic/' + this.topicId + '/posts').then(function (response) {
+            _this.pagination = _.omit(response.data, 'data');
+            _this.posts = response.data.data;
+        });
+    }
+});
+
+/***/ }),
+/* 69 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-6 col-md-offset-1" }, [
+        _c("nav", { attrs: { "aria-label": "Page navigation" } }, [
+          _c(
+            "ul",
+            { staticClass: "pagination" },
+            [
+              _vm._m(0, false, false),
+              _vm._v(" "),
+              _vm._l(_vm.pagination.last_page, function(page) {
+                return _c("li", { key: page }, [
+                  _c(
+                    "a",
+                    {
+                      attrs: {
+                        href: "/topic/" + _vm.topicId + "/posts?page=" + page
+                      }
+                    },
+                    [_vm._v(_vm._s(page))]
+                  )
+                ])
+              }),
+              _vm._v(" "),
+              _vm._m(1, false, false)
+            ],
+            2
+          )
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c(
+        "div",
+        { staticClass: "col-md-8" },
+        _vm._l(_vm.posts, function(post) {
+          return _c("div", { key: post.id, staticClass: "list-group" }, [
+            _c(
+              "a",
+              {
+                staticClass: "list-group-item",
+                attrs: {
+                  href:
+                    "/topic/" + post.topic + "/post/" + post.id + "/comments"
+                }
+              },
+              [
+                _c("h4", { staticClass: "list-group-item-heading" }, [
+                  _vm._v("Post #" + _vm._s(post.id))
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "list-group-item-text" }, [
+                  _vm._v(_vm._s(post.body))
+                ])
+              ]
+            )
+          ])
+        })
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [
+      _c("a", { attrs: { href: "#", "aria-label": "Previous" } }, [
+        _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("«")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [
+      _c("a", { attrs: { href: "#", "aria-label": "Next" } }, [
+        _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("»")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-94beb54e", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

@@ -17,10 +17,14 @@ class PostController extends Controller
      */
     public function index(Request $request,$topic)
     {
-        $topic = Topic::findOrFail($topic);
-        return $topic->posts(function($subquery){
-            $subquery->orderBy('created_at','desc');
-        })->paginate(20);
+        if($request->ajax()){
+            $topic = Topic::findOrFail($topic);
+            return $topic->posts(function($subquery){
+                $subquery->orderBy('created_at','desc');
+            })->paginate(20);
+        }
+        return view('topic_posts')->with(['topicId'=>$topic]);
+        
     }
 
     /**

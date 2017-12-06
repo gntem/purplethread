@@ -16,7 +16,7 @@ window.Vue = require('vue');
  */
 
 Vue.component('listtopics-component', require('./components/ListTopics.vue'));
-
+Vue.component('listtopicposts-component', require('./components/ListTopicPosts.vue'));
 
 const app = new Vue({
     el: '#app'
